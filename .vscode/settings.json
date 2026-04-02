@@ -1,0 +1,6 @@
+{
+  "java.server.launchMode": "LightWeight",
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "java.warnings.incompleteClasspath.severity": "ignore",
+  "java.project.sourcePaths": []
+}
