@@ -16,3 +16,4 @@ My notes on Data Structures & Algorithms.
 | [Sorting](sorting/) | - |
 | [Searching](searching/) | - |
 | [Hashing](hashing/) | - |
+| [Two Pointers](two-pointers/) | - |

@@ -1,0 +1,39 @@
+Subset Sum Problem
+
+
+class Solution {
+    static Boolean isSubsetSum(int arr[], int sum) {
+        int n = arr.length;
+        // Create DP table: rows represent elements, columns represent current sum
+        boolean[][] t = new boolean[n + 1][sum + 1];
+
+        // 1. Initialization (Base Cases)
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= sum; j++) {
+                if (i == 0) {
+                    t[i][j] = false; // With 0 elements, any sum > 0 is impossible
+                }
+                if (j == 0) {
+                    t[i][j] = true;  // Sum 0 is always possible with an empty subset
+                }
+            }
+        }
+
+        // 2. Filling the DP table (Knapsack Logic)
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= sum; j++) {
+                // If current element is less than or equal to current sum
+                if (arr[i - 1] <= j) {
+                    // Choice: Include the element OR Exclude it
+                    // Like knapsack: max(include, exclude), but for boolean we use OR
+                    t[i][j] = t[i - 1][j - arr[i - 1]] || t[i - 1][j];
+                } else {
+                    // If element is larger than current sum, we must exclude it
+                    t[i][j] = t[i - 1][j];
+                }
+            }
+        }
+
+        return t[n][sum]; // Result is in the bottom-right cell
+    }
+}
