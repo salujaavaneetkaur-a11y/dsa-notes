@@ -1,0 +1,36 @@
+SQL-01
+Department Budget Analysis
+Easy
+Table: employees
+id | name | department | salary ---|------|------------|-------
+ 1 | Alice | Engineering | 90000 
+ 2 | Bob | Marketing | 60000 
+ 3 | Carol | Engineering | 85000 
+ 4 | Dan | Marketing | 70000 
+ 5 | Eve | HR | 55000
+
+
+ Problem 
+ Show each department's total salary budget, average salary, headcount. Only show departments with total budget over $100,000.
+
+ SELECT
+    department,
+    COUNT(*) AS headcount,
+    SUM(salary) AS total_budget,
+    ROUND(AVG(salary), 2) AS avg_salary,
+    MAX(salary) AS highest_salary,
+    MIN(salary) AS lowest_salary
+FROM employees
+GROUP BY department
+HAVING SUM(salary) > 100000
+ORDER BY total_budget DESC;
+
+
+-- Result:
+-- Engineering | 2 | 175000 | 87500.00 | 90000 | 85000
+-- Marketing   | 2 | 130000 | 65000.00 | 70000 | 60000
+
+HAVING vs WHERE : WHERE filters individual rows before grouping. HAVING filters
+groups after GROUP BY runs. Always use HAVING when filtering on aggregate functions like SUM(), COUNT(), AVG(). 
+
+

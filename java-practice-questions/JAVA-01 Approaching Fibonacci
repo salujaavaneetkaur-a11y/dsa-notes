@@ -1,0 +1,49 @@
+JAVA-01
+Approaching Fibonacci
+Easy
+Problem Statement
+Given a number N, find the closest Fibonacci number to N. If two Fibonacci numbers are equidistant, return the smaller one. Also implement a check: is a given number Fibonacci or not?
+Example
+Input: N = 14
+Output: 13 (Fibonacci numbers near 14 are 13 and 21)
+Input: N = 10
+Output: 8 (8 and 13 are equidistant → return smaller = 8)
+Full Solution
+import java.util.*;
+
+public class FibonacciApproach {
+
+    // Check if a number is a perfect square
+    static boolean isPerfectSquare(long n) {
+        long sq = (long) Math.sqrt(n);
+        return sq * sq == n;
+    }
+
+    // A number is Fibonacci if 5n²+4 or 5n²-4 is a perfect square
+    static boolean isFibonacci(int n) {
+        return isPerfectSquare(5L * n * n + 4) ||
+               isPerfectSquare(5L * n * n - 4);
+    }
+
+    // Find closest Fibonacci number to N
+    static int closestFibonacci(int n) {
+        int a = 0, b = 1;
+        while (b < n) {
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        // b >= n, a is the Fibonacci just below n
+        if (b - n <= n - a) return b;
+        return a;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(closestFibonacci(14)); // 13
+        System.out.println(closestFibonacci(10)); // 8
+        System.out.println(isFibonacci(13));          // true
+        System.out.println(isFibonacci(14));          // false
+    }
+}
+How It Works
+Key insight: Walk the Fibonacci sequence until you overshoot N. Now you have the Fibonacci just BELOW (a) and just ABOVE (b). Compare distances: if b-n <= n-a, b is closer; otherwise a is closer. The "is Fibonacci" check uses the golden ratio math property — no loops needed.

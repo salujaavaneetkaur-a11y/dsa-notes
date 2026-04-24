@@ -1,0 +1,35 @@
+SQL-07
+Vendor Sort
+Easy
+Table: vendors
+id | vendor_name | category | rating | contract_value | status ---|-------------|-----------|--------|----------------|------- 1 | TechSupply | Hardware | 4.5 | 50000 | Active 2 | FastShip | Logistics | NULL | 30000 | Inactive 3 | CloudPro | Software | 4.8 | 80000 | Active 4 | MediaEdge | Marketing | 3.9 | 20000 | Active
+Problem
+Sort vendors: Active vendors first, then by contract value descending, then by vendor name alphabetically. NULLs in rating should appear last.
+Solution
+-- Multi-column sort with custom priority
+SELECT
+    vendor_name,
+    category,
+    rating,
+    contract_value,
+    status
+FROM vendors
+ORDER BY
+    -- 1. Active vendors first (custom priority)
+    CASE status
+        WHEN 'Active'   THEN 1
+        WHEN 'Inactive' THEN 2
+        ELSE 3
+    END ASC,
+    -- 2. Highest contract value first
+    contract_value DESC,
+    -- 3. Alphabetical by name
+    vendor_name ASC;
+
+-- Sort with NULLs last (MySQL: IS NULL trick)
+SELECT vendor_name, rating
+FROM vendors
+ORDER BY
+    rating IS NULL ASC, -- NULLs last (NULL IS NULL = 1, so they sort after 0s)
+    rating DESC;          -- Then highest rating first
+Key insight: CASE WHEN inside ORDER BY lets you define a custom sort priority (Active=1, Inactive=2). Chain multiple columns in ORDER BY — SQL applies them left to right as tiebreakers. For NULLs last in MySQL: ORDER BY (col IS NULL) ASC, col DESC — NULL IS NULL evaluates to 1 (true), so NULLs are pushed to the end.

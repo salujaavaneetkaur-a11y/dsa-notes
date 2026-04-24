@@ -17,3 +17,5 @@ My notes on Data Structures & Algorithms.
 | [Searching](searching/) | - |
 | [Hashing](hashing/) | - |
 | [Two Pointers](two-pointers/) | - |
+| [SQL Notes](SQL-notes/) | In Progress |
+| [Java Practice Questions](java-practice-questions/) | In Progress |

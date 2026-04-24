@@ -1,0 +1,32 @@
+JAVA-06
+Maximal Rectangle
+Hard
+Problem Statement
+Given a binary matrix filled with 0s and 1s, find the largest rectangle containing only 1s and return its area.
+Example
+Matrix: ["10100", "10111", "11111", "10010"]
+Output: 6 (3×2 rectangle in rows 1-2, cols 2-4)
+
+
+import java.util.*;
+
+public class MaximalRectangle {
+
+    //Helper: largest rectangle in histogram using stack 
+    static int largestHistogramArea(int[] heights){
+        Stack<Integer> stack = new Stack<>();
+        int maxArea = 0;
+        int n = heights.length;
+
+       for(int i=0; i<=nl i++){
+        int h = (i==n)? 0:heights[i];
+        while(!stack.isEmpty() && h<heights[stack.peek()]){
+            int height = heights[stack.pop()];
+            int width = stack.isEmpty() ? i: i-stack.peek()-1;
+            maxArea = Math.max(maxArea, height*width);
+        }
+        stack.push(i);
+       } 
+       return maxArea;
+    }
+}

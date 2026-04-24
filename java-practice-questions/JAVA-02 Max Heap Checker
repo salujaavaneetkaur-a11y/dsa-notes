@@ -1,0 +1,29 @@
+Max Heap Checker
+Easy
+Problem Statement
+Given an array, determine if it represents a valid max-heap. In a max-heap, for every node at index i, its value must be ≥ its children at 2i+1 and 2i+2.
+Example
+Input: [90, 15, 10, 7, 12, 2, 7, 3]
+Output: true
+Input: [90, 15, 10, 7, 12, 100, 7, 3]
+Output: false (100 > parent 10)
+
+public class MaxHeapChecker{
+
+    static boolean isMaxHeap(int[] arr){
+        int n = arr.length;
+
+        //Only need to check non-leaf notes (indices 0 to n/2 -1)
+        for(int i=0; i<(n/2)-1; i++){
+            int left = 2*i+1;
+            int right = 2*i+2;
+
+            if(left<n && arr[left]>arr[i])
+            return false;
+
+            if(right<n && arr[right]>arr[i])
+            return false;
+        }
+        return true; 
+    }
+}

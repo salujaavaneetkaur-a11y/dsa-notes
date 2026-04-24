@@ -1,0 +1,33 @@
+SQL-04
+Employee Age Analysis
+Easy
+Table: employees (with date_of_birth column)
+Problem
+Calculate each employee's current age, then group them into age brackets (Under 25, 25–35, 35–50, 50+) and show the count per bracket.
+Solution
+-- Part 1: Calculate age and show per employee
+SELECT
+    name,
+    date_of_birth,
+    TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age,
+    CASE
+        WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 25 THEN 'Under 25'
+        WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 35 THEN '25-35'
+        WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 50 THEN '35-50'
+        ELSE '50+'
+    END AS age_bracket
+FROM employees;
+
+-- Part 2: Count per age bracket
+SELECT
+    CASE
+        WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 25 THEN 'Under 25'
+        WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 35 THEN '25-35'
+        WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) < 50 THEN '35-50'
+        ELSE '50+'
+    END AS age_bracket,
+    COUNT(*) AS employee_count
+FROM employees
+GROUP BY age_bracket
+ORDER BY age_bracket;
+Key functions: TIMESTAMPDIFF(YEAR, dob, CURDATE()) gives exact age in years. DATEDIFF() gives difference in days. CASE WHEN is the SQL equivalent of if-else — use it to create computed categorical columns. You can GROUP BY the CASE expression directly.

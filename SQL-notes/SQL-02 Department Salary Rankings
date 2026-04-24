@@ -1,0 +1,34 @@
+SQL-02
+Department Salary Rankings
+Medium
+Problem
+Rank employees by salary within their department. Show both RANK (with gaps) and DENSE_RANK (no gaps). Also show the top earner per department.
+Solution
+-- Part 1: Rank all employees within department
+SELECT
+    name,
+    department,
+    salary,
+    RANK() OVER (
+        PARTITION BY department
+        ORDER BY salary DESC
+    ) AS salary_rank,
+    DENSE_RANK() OVER (
+        PARTITION BY department
+        ORDER BY salary DESC
+    ) AS dense_rank
+FROM employees
+ORDER BY department, salary_rank;
+
+-- Part 2: Get ONLY the top earner per department
+WITH ranked AS (
+    SELECT name, department, salary,
+        DENSE_RANK() OVER (
+            PARTITION BY department ORDER BY salary DESC
+        ) AS rnk
+    FROM employees
+)
+SELECT name, department, salary
+FROM ranked
+WHERE rnk = 1;
+RANK vs DENSE_RANK: If two people tie at rank 1, RANK gives both rank 1 but skips rank 2 (next is 3). DENSE_RANK gives both rank 1 and the next person gets rank 2 — no gaps. Use DENSE_RANK when filtering top-N to avoid missing ties.

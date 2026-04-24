@@ -1,0 +1,28 @@
+SQL-03
+Company Boss — Self Join
+Medium
+Table: employees
+id | name | manager_id | salary ---|---------|------------|------- 1 | Big Boss| NULL | 200000 2 | Alice | 1 | 90000 3 | Bob | 1 | 85000 4 | Carol | 2 | 70000 5 | Dan | 2 | 65000
+Problem
+Show each employee with their manager's name. The top boss has no manager. Also find employees who earn more than their manager.
+Solution
+-- Part 1: Employee with their manager name
+SELECT
+    e.name AS employee_name,
+    e.salary AS employee_salary,
+    COALESCE(m.name, 'Top Boss') AS manager_name,
+    m.salary AS manager_salary
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id
+ORDER BY e.id;
+
+-- Part 2: Employees earning MORE than their manager
+SELECT
+    e.name AS employee,
+    e.salary AS emp_salary,
+    m.name AS manager,
+    m.salary AS mgr_salary
+FROM employees e
+JOIN employees m ON e.manager_id = m.id
+WHERE e.salary > m.salary;
+Self Join: Join the table to itself using two aliases (e = employee, m = manager). Match e.manager_id = m.id. Use LEFT JOIN so the top boss (NULL manager_id) still appears. COALESCE(m.name, 'Top Boss') handles the NULL case cleanly.
