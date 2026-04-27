@@ -1,0 +1,37 @@
+Max Subarray/Kadane (#53) → currentSum reset to 0 if negative, track maxSum, O(n)
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        // Initialize currentSum and maxSum with the first element
+        int currentSum = nums[0];
+        int maxSum = nums[0];
+
+        // Iterate through the array starting from the second element
+        for (int i = 1; i < nums.length; i++) {
+            /* 
+             * Choice: Either start a new subarray from the current element 
+             * or add the current element to the existing currentSum.
+             */
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            
+            // Update the global maximum if the new currentSum is larger
+            maxSum = Math.max(maxSum, currentSum);
+        }
+
+        return maxSum;
+    }
+}
+
+Key Logic & Efficiency
+The Choice: For every element, you decide whether to "extend" the previous subarray or "start fresh" from the current position. If the previous sum was negative, it is always better to start fresh.
+Handling All Negatives: By initializing maxSum to nums[0] (instead of 0), the algorithm correctly identifies the least-negative number as the maximum sum if all elements are negative.
+Time Complexity: 
+
+
+
+ because we iterate through the array exactly once.
+Space Complexity: 
+
+
+
+ as we only use two integer variables regardless of input size.
